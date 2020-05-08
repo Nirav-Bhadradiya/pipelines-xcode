@@ -3,13 +3,21 @@
 # Add steps that install certificates, test, sign, and distribute the app, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/xcode
 
+variables:
+  scheme: ''
+  sdk: 'iphoneos'
+  configuration: 'Release'
+
 pool:
   vmImage: 'macOS-latest'
 
-steps:
 
+steps:
 - task: Xcode@5
   inputs:
-    actions: 'build'
-    packageApp: true
-    publishJUnitResults: true
+    sdk: '$(sdk)'
+    scheme: '$(scheme)'
+    configuration: '$(configuration)'
+    xcodeVersion: 'default' # Options: default, 10, 9, 8, specifyPath
+    exportPath: '$(agent.buildDirectory)/output/$(sdk)/$(configuration)'
+    packageApp: false
